@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: abu-wajih-dashboard
+    runtime: node
+    plan: starter
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /health
+    disk:
+      name: dashboard-data
+      mountPath: /var/data
+      sizeGB: 1
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: VIEWER_PASSWORD_HASH
+        sync: false
+      - key: DATA_REFRESH_CRON
+        value: "0 5 * * *"
+      - key: DATA_FILE
+        value: /var/data/dashboard-data.json
